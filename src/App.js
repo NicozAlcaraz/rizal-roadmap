@@ -345,6 +345,12 @@ body {
   box-shadow: 0 10px 20px rgba(138, 35, 35, 0.3);
 }
 
+.HomeFooter {
+  font-family: 'Lato', sans-serif;
+  font-size: 1rem;
+  color: var(--ink);
+  margin-top: 80px;
+}
 /* --- TIMELINE LAYOUT --- */
 .timeline-container {
   max-width: 1200px;
@@ -677,6 +683,7 @@ function App() {
               <button className="start-btn" onClick={() => handleStart('guided')}>Start Guided Tour</button>
               <button className="start-btn" onClick={() => handleStart('manual')} style={{borderColor: '#2b2b2b', color: '#2b2b2b'}}>Explore Freely</button>
             </div>
+            <p className="HomeFooter">4CSC | Group 1 | 2025</p>
           </div>
         ) : (
           <>
