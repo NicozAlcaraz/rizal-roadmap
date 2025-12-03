@@ -1,0 +1,16 @@
+{
+  "files": {
+    "main.css": "/rizal-roadmap/static/css/main.e6c13ad2.css",
+    "main.js": "/rizal-roadmap/static/js/main.19c31aa4.js",
+    "static/js/453.d709552e.chunk.js": "/rizal-roadmap/static/js/453.d709552e.chunk.js",
+    "static/media/Bayanko.mp3": "/rizal-roadmap/static/media/Bayanko.ff252e65e75ece724c56.mp3",
+    "index.html": "/rizal-roadmap/index.html",
+    "main.e6c13ad2.css.map": "/rizal-roadmap/static/css/main.e6c13ad2.css.map",
+    "main.19c31aa4.js.map": "/rizal-roadmap/static/js/main.19c31aa4.js.map",
+    "453.d709552e.chunk.js.map": "/rizal-roadmap/static/js/453.d709552e.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.e6c13ad2.css",
+    "static/js/main.19c31aa4.js"
+  ]
+}
