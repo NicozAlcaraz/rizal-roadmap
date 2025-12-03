@@ -196,6 +196,7 @@ body {
   color: var(--ink);
   font-family: 'Playfair Display', serif;
   overflow-x: hidden;
+  -webkit-tap-highlight-color: transparent; /* Removes touch highlight on mobile */
 }
 
 /* Texture Overlay */
@@ -222,6 +223,10 @@ body {
   backdrop-filter: blur(10px);
   align-items: center;
   border: 1px solid rgba(255, 255, 255, 0.15);
+  /* Mobile Safety */
+  max-width: 90%;
+  flex-wrap: wrap; 
+  justify-content: center;
 }
 
 .mode-btn {
@@ -258,6 +263,9 @@ body {
   transition: all 0.3s;
   padding: 8px;
   position: relative;
+  /* Larger touch target */
+  min-width: 40px;
+  min-height: 40px;
 }
 
 .icon-btn.active {
@@ -278,9 +286,10 @@ body {
   text-align: center;
   position: relative;
   z-index: 10;
+  padding: 0 20px; /* Safe padding for mobile */
 }
 
-/* --- NEW HERO IMAGE STYLES --- */
+/* --- HERO IMAGE --- */
 .hero-image {
     width: 180px;
     height: 180px;
@@ -290,7 +299,7 @@ body {
     border: 4px solid var(--gold);
     box-shadow: 0 15px 30px rgba(0,0,0,0.3);
     margin-bottom: 30px;
-    filter: sepia(20%) contrast(110%); /* Vintage feel */
+    filter: sepia(20%) contrast(110%);
     opacity: 0;
     animation: heroImageEntrance 1.2s cubic-bezier(0.22, 1, 0.36, 1) forwards;
 }
@@ -300,13 +309,13 @@ body {
     to { opacity: 1; transform: translateY(0) scale(1); }
 }
 
-
 .hero-title {
   font-family: 'Cinzel Decorative', serif;
   font-size: 5rem;
   color: var(--ink);
   margin-bottom: 20px;
   text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+  line-height: 1;
 }
 
 .hero-subtitle {
@@ -395,12 +404,12 @@ body {
   position: relative;
 }
 
-/* Card Alignments & Sizes */
+/* Card Alignments & Sizes (Desktop Default) */
 .card-main { 
   grid-column: 1 / -1; 
   justify-self: center; 
   width: 100%; 
-  max-width: 700px; /* Wider for more text */
+  max-width: 700px;
   text-align: center; 
   border-top: 5px solid var(--gold); 
 }
@@ -409,7 +418,7 @@ body {
   grid-column: 1; 
   justify-self: end; 
   transform: rotate(-1deg);
-  max-width: 480px; /* Wider for more text */
+  max-width: 480px;
   text-align: right;
 }
 
@@ -417,7 +426,7 @@ body {
   grid-column: 3; 
   justify-self: start; 
   transform: rotate(1deg);
-  max-width: 480px; /* Wider for more text */
+  max-width: 480px;
   text-align: left;
 }
 
@@ -456,7 +465,7 @@ h3 {
   line-height: 1.8;
   color: var(--ink);
   margin-bottom: 20px;
-  text-align: justify; /* Cleaner look for long text */
+  text-align: justify;
 }
 
 /* Footer / Reference Section */
@@ -505,22 +514,67 @@ h3 {
   animation: fillTime 15s linear forwards; 
 }
 
-/* Mobile Adjustments */
+/* --- MOBILE RESPONSIVE QUERIES --- */
 @media (max-width: 768px) {
+  /* Hero Section Mobile */
   .hero-title { font-size: 3rem; }
   .hero-image { width: 140px; height: 140px; }
-  .timeline-row { display: flex; flex-direction: column; gap: 20px; padding-bottom: 40px; }
-  .spine-background { left: 20px; }
+  .hero-wrapper { padding: 0 15px; }
+  .hero-subtitle { font-size: 1rem; margin-bottom: 30px; }
+  .start-btn { padding: 12px 25px; font-size: 1rem; width: 100%; max-width: 250px; }
+  .hero-wrapper div { flex-direction: column; gap: 15px; width: 100%; align-items: center; }
+
+  /* Timeline Mobile Layout - Collapse into Single Column */
+  .timeline-container { 
+    gap: 80px; 
+    padding: 100px 15px 200px 15px; 
+  }
   
-  .card-main, .detour-left .card, .detour-right .card { 
-    margin-left: 40px; 
-    width: calc(100% - 60px); 
-    max-width: none;
+  .spine-background { 
+    left: 20px; /* Move spine to the left edge */
+  }
+  
+  .timeline-row { 
+    display: flex; 
+    flex-direction: column; 
+    padding-left: 40px; /* Indent content to right of spine */
+  }
+  
+  /* Reset Card styles for mobile uniform look */
+  .card-main, 
+  .detour-left .card, 
+  .detour-right .card { 
+    margin-left: 0; 
+    width: 100%; 
+    max-width: 100%;
     transform: none; 
     text-align: left; 
+    padding: 25px;
   }
-  .significance { text-align: left; }
-  .detour-left .card { text-align: left; }
+  
+  .detour-left .card, .detour-right .card {
+    text-align: left;
+  }
+
+  .significance { 
+    text-align: left; 
+    font-size: 0.95rem;
+  }
+  
+  h3 { font-size: 1.8rem; }
+  .desc { font-size: 1rem; }
+
+  /* Control Panel Mobile */
+  .control-panel {
+    bottom: 20px;
+    padding: 10px 20px;
+    gap: 10px;
+    width: 90%;
+    border-radius: 20px;
+  }
+  
+  .mode-btn { font-size: 0.65rem; padding: 6px 10px; }
+  .icon-btn { width: 36px; height: 36px; }
 }
 `;
 
@@ -558,7 +612,6 @@ function App() {
     window.speechSynthesis.cancel();
     if (isTTSEnabled && viewMode === 'guided') {
       const item = timelineData[guidedIndex];
-      // Updated TTS to read the longer descriptions
       const textToSpeak = `${item.title}. ${item.significance}`;
       const utterance = new SpeechSynthesisUtterance(textToSpeak);
       utterance.rate = 1.0;
@@ -568,7 +621,6 @@ function App() {
 
   useEffect(() => {
     let interval;
-    // Increased Autoplay time to 15s to account for reading longer text
     if (isAutoPlay && viewMode === 'guided' && guidedIndex < timelineData.length - 1) {
       interval = setInterval(() => {
          nextStep();
@@ -614,7 +666,6 @@ function App() {
 
         {viewMode === 'hero' ? (
           <div className="hero-wrapper">
-            {/* --- NEW IMAGE ADDED HERE --- */}
             <img
                 src="https://rizalnetherlands.wordpress.com/wp-content/uploads/2013/06/rizal.png"
                 alt="Jose Rizal Portrait"
@@ -664,7 +715,6 @@ function App() {
                       <p className="desc">{item.shortDesc}</p>
                       <p className="significance">{item.significance}</p>
 
-                      {/* NEW FOOTER SECTION FOR REFERENCES */}
                       <div className="card-footer">
                         <span className="meta-year">{item.year}</span>
                         <span className="meta-source">{item.source}</span>
