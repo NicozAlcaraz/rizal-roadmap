@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import bgMusicFile from './assets/Bayanko.mp3';
 
-// --- ENRICHED DATA ---
+// --- ENRICHED DATA (Unchanged) ---
 const timelineData = [
   {
     id: 'I',
@@ -280,6 +280,27 @@ body {
   z-index: 10;
 }
 
+/* --- NEW HERO IMAGE STYLES --- */
+.hero-image {
+    width: 180px;
+    height: 180px;
+    object-fit: cover;
+    object-position: top center;
+    border-radius: 50%;
+    border: 4px solid var(--gold);
+    box-shadow: 0 15px 30px rgba(0,0,0,0.3);
+    margin-bottom: 30px;
+    filter: sepia(20%) contrast(110%); /* Vintage feel */
+    opacity: 0;
+    animation: heroImageEntrance 1.2s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+@keyframes heroImageEntrance {
+    from { opacity: 0; transform: translateY(30px) scale(0.8); }
+    to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+
 .hero-title {
   font-family: 'Cinzel Decorative', serif;
   font-size: 5rem;
@@ -487,6 +508,7 @@ h3 {
 /* Mobile Adjustments */
 @media (max-width: 768px) {
   .hero-title { font-size: 3rem; }
+  .hero-image { width: 140px; height: 140px; }
   .timeline-row { display: flex; flex-direction: column; gap: 20px; padding-bottom: 40px; }
   .spine-background { left: 20px; }
   
@@ -592,6 +614,12 @@ function App() {
 
         {viewMode === 'hero' ? (
           <div className="hero-wrapper">
+            {/* --- NEW IMAGE ADDED HERE --- */}
+            <img
+                src="https://rizalnetherlands.wordpress.com/wp-content/uploads/2013/06/rizal.png"
+                alt="Jose Rizal Portrait"
+                className="hero-image"
+            />
             <h1 className="hero-title">Rizal Archives</h1>
             <p className="hero-subtitle">An Interactive Journey through Ideology & Sacrifice</p>
             <div style={{display: 'flex', gap: '20px'}}>
